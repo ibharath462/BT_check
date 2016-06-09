@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         send=(Button)findViewById(R.id.send);
         connect=(Button)findViewById(R.id.connect);
-        
+
         t=(TextView)findViewById(R.id.textView);
         final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //Registering filters...
