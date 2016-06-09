@@ -1,1 +1,1 @@
-#BT_chekc
+#BT_check
