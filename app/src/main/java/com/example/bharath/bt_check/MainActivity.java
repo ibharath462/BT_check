@@ -8,10 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +17,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.UUID;
+import java.util.HashMap;
+
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,9 +34,15 @@ public class MainActivity extends AppCompatActivity {
     Thread workerThread;
     byte[] readBuffer;
     int readBufferPosition;
+    String action;
     int counter;
     volatile boolean stopWorker;
     TextView t;
+    data d;
+    char []buff=new char[10];
+    int index=0;
+    String ip;
+    HashMap<String,String> task=new HashMap<String,String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +50,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        send=(Button)findViewById(R.id.send);
+        send = (Button) findViewById(R.id.send);
         connect=(Button)findViewById(R.id.connect);
+        d=new data(MainActivity.this);
 
-        t=(TextView)findViewById(R.id.textView);
+
+
+        task.put("00", "Call");
+        task.put("01", "Message");
+        task.put("10", "Camera");
+        task.put("11", "Music");
+
+        t = (TextView) findViewById(R.id.textView);
         final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //Registering filters...
         IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
@@ -58,12 +71,14 @@ public class MainActivity extends AppCompatActivity {
         this.registerReceiver(mReceiver, filter2);
         this.registerReceiver(mReceiver, filter3);
 
+
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, 1);
         }
 
-        connect.setOnClickListener(new View.OnClickListener() {
+
+        /*connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BluetoothDevice device=null;
@@ -106,22 +121,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        });
-
+        });*/
 
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    sendData("HelloBarbieee\n");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                /*biind();
+                d.addCall();*/
             }
         });
 
+        connect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.getConatct();
+            }
+        });
+
+
     }
+
+
+    public void biind(){
+        Intent dialogIntent = new Intent(MainActivity.this, BT.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startService(dialogIntent);
+    }
+    /*
+    }
+
+
 
     void sendData(String m) throws IOException{
         String msg = m;
@@ -167,7 +198,10 @@ public class MainActivity extends AppCompatActivity {
                                     {
                                         public void run()
                                         {
-                                            t.setText(""+data);
+                                            char[] tt=data.toCharArray();
+                                            t.setText("Character :"+tt[0]);
+                                            buff[index]=tt[0];
+                                            check();
                                         }
                                     });
                                 }
@@ -189,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         workerThread.start();
     }
 
-
+*/
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -201,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
 
-                Toast.makeText(getApplicationContext(),"Connected..",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Connected...",Toast.LENGTH_SHORT).show();
 
             }
             else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
@@ -212,9 +246,38 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
 
+                Toast.makeText(getApplicationContext(),"DisConnected...",Toast.LENGTH_SHORT).show();
+
             }
         }
     };
+
+    public void check(){
+        action=task.get(String.valueOf(buff).trim());
+        if(action!=null)
+        {
+            index=0;
+            Toast.makeText(getApplicationContext(), "" + action, Toast.LENGTH_SHORT).show();
+            action=null;
+            buff=new char[10];
+        }
+        else {
+            index++;
+        }
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        unregisterReceiver(mReceiver);
+        finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
