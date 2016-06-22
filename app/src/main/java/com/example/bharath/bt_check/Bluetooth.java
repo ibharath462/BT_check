@@ -128,6 +128,7 @@ public class Bluetooth extends Service {
                                             mIntent.putExtra("letter",data);
                                             mIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startService(mIntent);*/
+                                            //Toast.makeText(getApplicationContext(), "Bluetooth:" + data, Toast.LENGTH_SHORT).show();
                                             Intent ii=new Intent();
                                             ii.setAction(BLUETOOTH_SERVICE);
                                             ii.putExtra("bt",data);

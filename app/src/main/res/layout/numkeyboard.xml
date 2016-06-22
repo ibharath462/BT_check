@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll"
+    android:id="@+id/ll2"
     android:background="#323232"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +8,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:rowCount="13"
-        android:id="@+id/gl"
+        android:id="@+id/gl2"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:background="#323232"
@@ -18,7 +18,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_row="0"
-            android:id="@+id/predictiveView"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -63,7 +62,7 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="E" />
+                android:text="1" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -72,7 +71,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="T" />
+                android:text="2" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -81,7 +80,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="N" />
+                android:text="3" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -90,7 +89,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="U" />
+                android:text="4" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -100,7 +99,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="C" />
+                android:text="5" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -109,7 +108,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="V" />
+                android:text="6" />
 
 
 
@@ -130,7 +129,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dip"
-                 />
+                />
 
 
         </LinearLayout>
@@ -148,7 +147,7 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="A" />
+                android:text="7" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -157,7 +156,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="O" />
+                android:text="8" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -166,7 +165,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="S" />
+                android:text="9" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -175,7 +174,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="M" />
+                android:text="0" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -185,7 +184,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="F" />
+                android:text="!" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -194,7 +193,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="K" />
+                android:text="#" />
 
 
 
@@ -229,7 +228,7 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="I" />
+                android:text="$" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -238,7 +237,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="D" />
+                android:text="%" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -247,7 +246,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="L" />
+                android:text="^" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -256,7 +255,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="W" />
+                android:text="&amp;" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -266,7 +265,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="Y" />
+                android:text="*" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -275,7 +274,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="Q" />
+                android:text="(" />
 
 
 
@@ -310,7 +309,7 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="H" />
+                android:text=")" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -337,7 +336,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="G" />
+                android:text="+" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -347,7 +346,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="P" />
+                android:text="-" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -356,7 +355,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="J" />
+                android:text="/" />
 
 
 
@@ -391,7 +390,7 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="R" />
+                android:text="," />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -409,7 +408,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="bs" />
+                android:text="." />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -418,7 +417,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="B" />
+                android:text=":" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -428,7 +427,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="Z" />
+                android:text=";" />
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -437,7 +436,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:text="X" />
+                android:text="|" />
 
 
 

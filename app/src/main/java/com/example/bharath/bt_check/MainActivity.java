@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     volatile boolean stopWorker;
     TextView t;
     data d;
+    IntentFilter filter1,filter2,filter3;
     char []buff=new char[10];
     int index=0;
     String ip;
@@ -64,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
         t = (TextView) findViewById(R.id.textView);
         final BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //Registering filters...
-        IntentFilter filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
-        IntentFilter filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
-        IntentFilter filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-        this.registerReceiver(mReceiver, filter1);
-        this.registerReceiver(mReceiver, filter2);
-        this.registerReceiver(mReceiver, filter3);
+        filter1 = new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED);
+        filter2 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED);
+        filter3 = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        //this.registerReceiver(mReceiver, filter1);
+        //this.registerReceiver(mReceiver, filter2);
+        //this.registerReceiver(mReceiver, filter3);
 
 
         if (!mBluetoothAdapter.isEnabled()) {
@@ -268,15 +269,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onStop(){
+        //unregisterReceiver(mReceiver);
         super.onStop();
-        unregisterReceiver(mReceiver);
         finish();
     }
 
     @Override
     public void onPause(){
+        //unregisterReceiver(mReceiver);
         super.onPause();
-        unregisterReceiver(mReceiver);
     }
 
     @Override
