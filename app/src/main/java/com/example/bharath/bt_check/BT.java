@@ -22,24 +22,35 @@ import android.view.inputmethod.InputConnection;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.Space;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class BT extends InputMethodService implements KeyboardView.OnKeyboardActionListener{
 
 
     static InputConnection ic=null;
-    int swapFlag=0;
-    GridLayout gl,gl2;
+    int swapFlag=0,charIndex=0;
+    Space bSpace1,bSpace2,bSpace3;
+    boolean suggestionIndex=false;
+    GridLayout gl;
+    CharSequence ch;
+    ViewGroup.LayoutParams bParams,sParams;
+    String []suggestionString=new String[3];
+    SearchTest searchWord;
     CountDownTimer cT;
     ViewGroup v;
     LinearLayout ll1,predictiveView;
     Button but;
     Drawable dd;
-    View h;
+    View h,suggestionH;
+    Button suggestedWord;
     LST disText=null;
     Handler mHandler;
+    Button suggestion1,suggestion2,suggestion3,suggestion4;
     View myView;
-    int rIndex=2,cIndex=0;
+    int rIndex=2,cIndex=0,suggestioncIndex=0;
     WindowManager.LayoutParams p;
 
 
@@ -54,7 +65,6 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
 
     private  KeyboardView kv;
     private WindowManager wm;
-    private LinearLayout ll;
     private Button b;
     BtReceiver btrec;
 
@@ -69,6 +79,10 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
         btrec=new BtReceiver();
         mHandler=new Handler();
 
+        bParams=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        sParams=new ViewGroup.LayoutParams(10, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
         cT=new CountDownTimer(1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -80,6 +94,10 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
 
             }
         }.start();
+
+
+        searchWord=new SearchTest();
+        searchWord.createTrie();
 
         IntentFilter iff=new IntentFilter();
         iff.addAction(Bluetooth.BLUETOOTH_SERVICE);
@@ -128,7 +146,7 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
         dd=h.getBackground();
         h.setBackgroundColor(Color.GREEN);
         but=(Button)v.getChildAt(cIndex);
-        Log.d("XXXRow",""+rIndex);
+        Log.d("XXXRow", "" + rIndex);
         Log.d("XXXColumn", "" + cIndex);
         Log.d("XXXButton", "" + but.getText().toString());
         timer();
@@ -226,10 +244,13 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
                 else if(textToInput.equals("sp")){
                     ic = getCurrentInputConnection();
                     ic.commitText(" ", 1);
+                    charIndex++;
                 }
                 else if(textToInput.equals("bs")){
                     ic = getCurrentInputConnection();
                     ic.deleteSurroundingText(1,0);
+                    charIndex--;
+                    krazyTrie();
                 }
                 else if(textToInput.equals("sw")){
 
@@ -250,11 +271,14 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
                 else{
                     ic = getCurrentInputConnection();
                     ic.commitText(textToInput, 1);
+                    charIndex++;
+                    ch=ic.getTextBeforeCursor(charIndex,0);
+                    krazyTrie();
                 }
                 rIndex=2;
                 cIndex=0;
                 defa();
-                typeee();
+                //typeee();
                 cancel();
 
             }
@@ -262,6 +286,69 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
 
         cT.start();
 
+
+    }
+
+    public void krazyTrie(){
+
+
+        Log.d("KrazySent:",ch.toString());
+        int count=0;
+        String trieString=ch.toString();
+        List<Score> trieScore=searchWord.find(trieString);
+
+        if (trieScore != null) {
+
+
+            for (Score tempScore : trieScore) {
+                Log.d("KrazyReceived:", tempScore.toString());
+                suggestionString[count]=tempScore.name;
+                count++;
+                if(count==3)
+                    break;
+            }
+
+        }
+
+        createSuggestionView();
+
+    }
+
+    public void createSuggestionView(){
+
+
+
+        predictiveView.removeAllViews();
+
+        bSpace1=new Space(this);
+        bSpace2=new Space(this);
+        bSpace3=new Space(this);
+
+        suggestion1=new Button(this);
+        suggestion2=new Button(this);
+        suggestion3=new Button(this);
+        suggestion4=new Button(this);
+
+        suggestion1.setText("Cancel");
+        suggestion2.setText(""+suggestionString[0]);
+        suggestion3.setText(""+suggestionString[1]);
+        suggestion4.setText("" + suggestionString[2]);
+
+        predictiveView.addView(suggestion1, bParams);
+        predictiveView.addView(bSpace1, sParams);
+        predictiveView.addView(suggestion2, bParams);
+        predictiveView.addView(bSpace2,sParams);
+        predictiveView.addView(suggestion3,bParams);
+        predictiveView.addView(bSpace3,sParams);
+        predictiveView.addView(suggestion4, bParams);
+
+        cT.cancel();
+
+        defa();
+        v=(ViewGroup)gl.getChildAt(0);
+        suggestedWord=(Button)v.getChildAt(suggestioncIndex);
+        suggestionH=v.getChildAt(suggestioncIndex);
+        suggestionH.setBackgroundColor(Color.GREEN);
 
     }
 
@@ -277,22 +364,54 @@ public class BT extends InputMethodService implements KeyboardView.OnKeyboardAct
             s=s.trim();
             int val=Integer.parseInt(s);
             Toast.makeText(getApplicationContext(), "Display:" + s, Toast.LENGTH_SHORT).show();
-            if(val==1){
+            if(!suggestionIndex) {
 
-                rIndex+=2;
-                if(rIndex%12==0)
-                    rIndex=2;
-                typeee();
+
+                if (val == 1) {
+
+                    rIndex += 2;
+                    if (rIndex % 12 == 0)
+                        rIndex = 2;
+                    typeee();
+                } else if (val == 0) {
+
+                    cIndex += 2;
+                    if (cIndex % 12 == 0)
+                        cIndex = 0;
+                    typeee();
+
+                }
+
+
             }
-            else if(val==0){
+            else{
 
-                cIndex+=2;
-                if(cIndex%12==0)
-                    cIndex=0;
-                typeee();
+                if(val==0) {
+                    suggestioncIndex = (suggestioncIndex + 2) % 8;
+                    createSuggestionView();
+                }
+                else if(val==1){
+
+                    if(suggestedWord.getText().toString().equals("Cancel"))
+                    {
+
+                        suggestioncIndex=0;
+
+                    }
+                    else {
+
+                        searchWord.writeFile(suggestedWord.getText().toString());
+                        ic=getCurrentInputConnection();
+                        ic.commitText(""+suggestedWord.getText().toString()+" ",1);
+                    }
+
+                    predictiveView.removeAllViews();
+                    suggestionIndex=!suggestionIndex;
+                    defa();
+                    typeee();
+                }
 
             }
-            //timer();
 
         }
     }
